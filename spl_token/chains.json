@@ -1,0 +1,4 @@
+{
+  "solana_mainnet": "https://api.mainnet-beta.solana.com",
+  "solana_devnet": "https://api.devnet.solana.com"
+}

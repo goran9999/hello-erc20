@@ -10,7 +10,11 @@ contract HelloERC20 is ERC20Burnable, MessageClient {
         _mint(msg.sender, 1_000_000 ether);
     }
 
-    function bridge(uint _destChainId, address _recipient, uint _amount) external onlyActiveChain(_destChainId) {
+    function bridge(
+        uint _destChainId,
+        bytes32 _recipient,
+        uint256 _amount
+    ) external onlyActiveChain(_destChainId) {
         // burn tokens
         _burn(msg.sender, _amount);
 
@@ -18,7 +22,14 @@ contract HelloERC20 is ERC20Burnable, MessageClient {
         _sendMessage(_destChainId, abi.encode(_recipient, _amount));
     }
 
-    function messageProcess(uint, uint _sourceChainId, address _sender, address, uint, bytes calldata _data) external override  onlySelf(_sender, _sourceChainId)  {
+    function messageProcess(
+        uint,
+        uint _sourceChainId,
+        address _sender,
+        address,
+        uint,
+        bytes calldata _data
+    ) external override onlySelf(_sender, _sourceChainId) {
         // decode message
         (address _recipient, uint _amount) = abi.decode(_data, (address, uint));
 

@@ -1,0 +1,31 @@
+[package]
+name = "hello_token"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+solana-program = "1.17.1"
+borsh="0.10.0"
+solana-sdk="1.17.1"
+serde = "1.0.198"
+solana-client="1.17.1"
+serde_json = "1.0.116"
+dotenv = "0.15.0"
+spl-token = {version="4.0.0",features=["no-entrypoint"]}
+mv3_contract_solana={git="https://github.com/goran9999/cryptolink_solana.git",sub="programs/mv3_contract_solana",features=["no-entrypoint"]}
+spl-tlv-account-resolution = "0.5.1"
+message_hook={git="https://github.com/goran9999/cryptolink_solana.git",sub="interface"}
+ethnum = "1.5.0"
+[lib]
+name="hello_token"
+crate-type = ["cdylib","lib"]
+
+[[bin]]
+name="configure_client"
+path="scripts/configure_client.rs"
+
+[[bin]]
+name="utils"
+path="scripts/utils.rs"
