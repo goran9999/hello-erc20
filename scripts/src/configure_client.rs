@@ -1,11 +1,10 @@
-mod utils;
 use std::{ops::Mul, str::FromStr};
 
+mod utils;
+use crate::utils::{get_authority, get_rpc};
 use mv3_contract_solana::state::config::MessageClient;
 use solana_program::{native_token::LAMPORTS_PER_SOL, pubkey::Pubkey};
 use solana_sdk::{signer::Signer, transaction::Transaction};
-
-use crate::utils::{get_authority, get_rpc};
 
 pub fn main() {
     let authority = get_authority();
@@ -51,7 +50,7 @@ pub fn main() {
             destination_contract,
             exsig: None,
             notify_on_failure: false,
-            supported_chains: vec![80001],
+            supported_chains: vec![80001, 4002],
         },
     );
 

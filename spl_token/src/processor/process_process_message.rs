@@ -54,5 +54,11 @@ pub fn process_process_message(
 
     msg!("Message hook executed!");
 
+    let system_program = next_account_info(accounts_iter)?;
+    let token_program = next_account_info(accounts_iter)?;
+    let associated_token_program = next_account_info(accounts_iter)?;
+    let mint = next_account_info(accounts_iter)?;
+    let ata = next_account_info(accounts_iter)?;
+
     Ok(())
 }

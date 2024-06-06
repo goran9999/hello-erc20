@@ -25,10 +25,7 @@ task("configureSolana", "")
 
     const encoded = coder.encode(["bytes[]"], [[addresses]]);
 
-    console.log(
-      "setting remote contract addresses .. CLT message address:",
-      chainsConfig[hre.network.config.chainId].message
-    );
+    console.log(chainsConfig, "CC");
     const helloERC20 = await ethers.getContract("HelloERC20");
     console.log(chainsConfig[hre.network.config.chainId].message, "CCC");
     await (

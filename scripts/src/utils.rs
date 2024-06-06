@@ -1,9 +1,8 @@
 use dotenv;
 use serde::{Deserialize, Serialize};
+
 use solana_client::rpc_client::RpcClient;
 use solana_sdk::signature::Keypair;
-
-pub fn main() {}
 
 #[derive(Deserialize, Serialize)]
 pub struct ChainConfig {

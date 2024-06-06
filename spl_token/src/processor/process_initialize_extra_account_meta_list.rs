@@ -2,7 +2,7 @@ use message_hook::{
     collect_extra_account_metas_signer_seeds, get_extra_account_metas_address_and_bump_seed,
     instruction::ProcessMessageInstruction,
 };
-use mv3_contract_solana::constants::MESSAGE_SEED;
+use mv3_contract_solana::constants::{MESSAGE_CLIENT_SEED, MESSAGE_SEED};
 use solana_program::{
     account_info::{next_account_info, AccountInfo},
     entrypoint::ProgramResult,
@@ -28,7 +28,7 @@ pub fn process_initialize_extra_account_meta_list(
     let extra_account_metas_info = next_account_info(account_info_iter)?;
 
     let (message, _) = Pubkey::find_program_address(
-        &[MESSAGE_SEED, program_id.as_ref()],
+        &[MESSAGE_CLIENT_SEED, program_id.as_ref()],
         &mv3_contract_solana::id(),
     );
 

@@ -2,7 +2,7 @@ use borsh::BorshSerialize;
 use solana_program::{
     account_info::{next_account_info, AccountInfo},
     entrypoint::ProgramResult,
-    program::invoke,
+    program::{invoke, invoke_signed},
     program_pack::Pack,
     pubkey::Pubkey,
 };
@@ -35,7 +35,7 @@ pub fn process_create_token(
 
     let rent = next_account_info(accounts_iter)?;
 
-    check_seeds(
+    let bump = check_seeds(
         token_data_info.key,
         &[TOKEN_SEED, mint_authority.key.as_ref()],
         program_id,
@@ -58,14 +58,14 @@ pub fn process_create_token(
     .try_to_vec()
     .unwrap();
 
-    // create_account(
-    //     mint_authority,
-    //     token_data_info,
-    //     system_program,
-    //     token_data.len() as u64,
-    //     program_id,
-    //     Some(&[TOKEN_SEED, mint_authority.key.as_ref(), &[bump]]),
-    // )?;
+    create_account(
+        mint_authority,
+        token_data_info,
+        system_program,
+        token_data.len() as u64,
+        program_id,
+        Some(&[TOKEN_SEED, mint_authority.key.as_ref(), &[bump]]),
+    )?;
 
     create_account(
         mint_authority,
@@ -79,12 +79,12 @@ pub fn process_create_token(
     let ix = spl_token::instruction::initialize_mint(
         token_program.key,
         mint.key,
-        mint_authority.key,
-        Some(mint_authority.key),
+        token_data_info.key,
+        Some(token_data_info.key),
         data.decimals,
     )?;
 
-    invoke(
+    invoke_signed(
         &ix,
         &[
             mint_authority.clone(),
@@ -92,6 +92,7 @@ pub fn process_create_token(
             token_program.clone(),
             rent.clone(),
         ],
+        &[&[TOKEN_SEED, mint_authority.key.as_ref(), &[bump]]],
     )?;
 
     token_data_info

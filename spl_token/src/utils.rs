@@ -1,6 +1,6 @@
 use std::str::FromStr;
 
-use mv3_contract_solana::constants::MESSAGE_SEED;
+use mv3_contract_solana::constants::{MESSAGE_CLIENT_SEED, MESSAGE_SEED};
 use solana_program::{
     account_info::AccountInfo,
     entrypoint::ProgramResult,
@@ -76,7 +76,7 @@ pub fn create_account<'a, 'b>(
 
 pub fn get_message_pda(program_id: &Pubkey) -> Pubkey {
     let (message_key, _) = Pubkey::find_program_address(
-        &[MESSAGE_SEED, program_id.as_ref()],
+        &[MESSAGE_CLIENT_SEED, program_id.as_ref()],
         &Pubkey::from_str(MV3_KEY).unwrap(),
     );
 

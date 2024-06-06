@@ -35,6 +35,7 @@ task("configure", "")
         )
         .toString();
       addresses.push(helloERC20.address);
+
       chainids.push(chainId);
       confirmations.push(1);
     }

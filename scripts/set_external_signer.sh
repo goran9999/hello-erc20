@@ -3,7 +3,7 @@
 
 network=""
 contract=""
-amount=""
+evm_address=""
 
 
 while [[ $# -gt 0 ]]; do
@@ -16,9 +16,9 @@ while [[ $# -gt 0 ]]; do
             shift
             contract="$1"
             ;;
-        --amount)
+        --evm_address)
             shift
-            amount="$1"
+            evm_address="$1"
             ;;
         *)
             echo "Unknown option: $1"
@@ -27,6 +27,7 @@ while [[ $# -gt 0 ]]; do
     esac
     shift
 done
+
 
 
 if [[ -z "$network" ]]; then
@@ -39,9 +40,9 @@ if [[ -z "$contract" ]]; then
     exit 1
 fi
 
-if [[ -z "$amount" ]]; then
-    echo "Error: Missing deposit amount"
+if [[ -z "$evm_address" ]]; then
+    echo "Error: Missing EVM address"
     exit 1
 fi
 
-cargo run --bin configure_client $network $contract $amount
+cargo run --bin set_exsig $network $contract $evm_address

@@ -1,7 +1,6 @@
 import { task } from "hardhat/config";
-
-task("bridge-token", "")
-  .addParam("dest", "Destination chain id")
+import { PublicKey } from "@solana/web3.js";
+task("bridge-token-solana", "")
   .addParam("amount", "Amount of tokens in ETH")
   .addOptionalParam("wallet", "Custom wallet")
   .addOptionalParam("signer", "Custom signer (private key)")
@@ -9,6 +8,7 @@ task("bridge-token", "")
   .setAction(async (args, hre: any) => {
     const ethers = hre.ethers;
     const network = hre.network.name;
+
     const [deployer] = await ethers.getSigners();
 
     let signer = deployer;
@@ -21,21 +21,32 @@ task("bridge-token", "")
     if (args.wallet) wallet = args.wallet;
 
     const helloERC20 = await ethers.getContract("HelloERC20");
+    const coder = new ethers.AbiCoder();
+    const encodedWallet = coder.encode(
+      ["bytes32"],
+      [new PublicKey(args.wallet).toBuffer()]
+    );
 
     await (
       await helloERC20
         .connect(signer)
-        .approve(signer.address, ethers.parseEther(args.amount))
+        .approve(signer.address, ethers.parseEther("1000"))
     ).wait();
 
-    await helloERC20
-      .connect(signer)
-      .bridge.estimateGas(args.dest, wallet, ethers.parseEther(args.amount));
-    await (
-      await helloERC20
-        .connect(signer)
-        .bridge(args.dest, wallet, ethers.parseEther(args.amount))
-    ).wait();
+    try {
+      const tx = await (
+        await helloERC20
+          .connect(signer)
+          .bridge(
+            BigInt(19999999991),
+            encodedWallet,
+            Math.pow(10, 6) * args.amount
+          )
+      ).wait();
+      console.log(tx);
+    } catch (error) {
+      console.log(error);
+    }
 
     console.log(
       "sent",

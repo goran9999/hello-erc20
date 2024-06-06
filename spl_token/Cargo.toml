@@ -8,24 +8,17 @@ edition = "2021"
 [dependencies]
 solana-program = "1.17.1"
 borsh="0.10.0"
-solana-sdk="1.17.1"
-serde = "1.0.198"
-solana-client="1.17.1"
-serde_json = "1.0.116"
-dotenv = "0.15.0"
 spl-token = {version="4.0.0",features=["no-entrypoint"]}
 mv3_contract_solana={git="https://github.com/goran9999/cryptolink_solana.git",sub="programs/mv3_contract_solana",features=["no-entrypoint"]}
 spl-tlv-account-resolution = "0.5.1"
+spl-associated-token-account = "3.0.2"
 message_hook={git="https://github.com/goran9999/cryptolink_solana.git",sub="interface"}
 ethnum = "1.5.0"
 [lib]
 name="hello_token"
 crate-type = ["cdylib","lib"]
 
-[[bin]]
-name="configure_client"
-path="scripts/configure_client.rs"
 
-[[bin]]
-name="utils"
-path="scripts/utils.rs"
+
+
+

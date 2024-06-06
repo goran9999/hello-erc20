@@ -4,6 +4,7 @@ import "@typechain/hardhat";
 
 import "./tasks/get-token-balance";
 import "./tasks/bridge-token";
+import "./tasks/bridge-token-solana";
 import "./tasks/configure";
 import "./tasks/configureSolana";
 import "./tasks/parseSolanaAddress";
@@ -45,8 +46,8 @@ const config: any = {
       accounts: accounts,
     },
     "polygon-testnet": {
-      chainId: 80001,
-      url: "https://rpc-mumbai.maticvigil.com/",
+      chainId: 80002,
+      url: "https://rpc-amoy.polygon.technology/",
       live: false,
       accounts: accounts,
     },
